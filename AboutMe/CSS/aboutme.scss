@@ -1,0 +1,784 @@
+@import "var";
+@import "mixin";
+@import url("https://fonts.googleapis.com/css2?family=Overpass+Mono:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Just+Another+Hand&display=swap");
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body,
+html {
+  height: 100vh;
+  width: 100%;
+  font-family: "Overpass Mono", monospace;
+  scroll-behavior: smooth;
+
+  @include laptopMedia {
+    width: 100%;
+  }
+}
+
+// custom scroll bar
+
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+
+::-webkit-scrollbar:vertical {
+  width: 12px;
+}
+
+::-webkit-scrollbar:horizontal {
+  height: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: $dark-black;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: black;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #ffffff;
+}
+////////
+
+a {
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+// nav section
+
+nav {
+  display: flex;
+  position: fixed;
+  width: 60vw;
+  height: 100vh;
+  background-color: $gray-light;
+  right: 0;
+  top: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding-left: 1.5rem;
+  transform: translateX(100%);
+  transition: all 0.5s linear;
+  z-index: 5;
+
+  @include laptopMedia {
+    left: 0;
+    display: flex;
+    background-color: unset;
+    position: fixed;
+    flex-direction: row;
+    transform: translateX(0);
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.555);
+    justify-content: space-between;
+    align-items: center;
+    height: auto;
+    padding: 0;
+    margin: auto;
+  }
+  .nav-container {
+    @include laptopMedia {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-direction: row;
+      height: auto;
+      margin: auto;
+      width: 80vw;
+    }
+  }
+
+  .logo {
+    padding-top: 0.5rem;
+
+    @include laptopMedia {
+      padding: 0;
+
+      svg {
+        width: 5rem;
+        height: 5rem;
+      }
+    }
+  }
+
+  .nav-menu {
+    position: relative;
+
+    @include laptopMedia {
+      position: relative;
+    }
+
+    ul {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+
+      @include laptopMedia {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 2rem;
+      }
+
+      li {
+        padding: 0.5rem 0;
+      }
+      .nav-item {
+        a {
+          // color: $dark-black;
+          color: white;
+          transition: all 0.25s linear;
+        }
+        a:hover, a:active {
+          color: $green-dark;
+        }
+      }
+      .nav-item-cta {
+        margin-top: 1rem;
+        position: relative;
+        @include laptopMedia {
+          align-self: center;
+          margin: 0;
+        }
+        a {
+          color: $green-light;
+          background-color: #000000;
+          background-image: linear-gradient(45deg, #000000 0%, #434343 74%);
+          padding: 0.6rem 0.8rem;
+          border-radius: 20px;
+          transition: all 0.25s linear;
+        }
+        a:hover {
+          color: $dark-black;
+          background-color: $green-dark;
+          background-image: linear-gradient(
+            45deg,
+            $green-light 0%,
+            #434343 74%
+          );
+        }
+
+        img {
+          position: absolute;
+          width: 20%;
+          height: 100%;
+          top: 50%;
+          right: -0.5rem;
+          transform: translateY(-50%);
+
+          @include laptopMedia {
+            animation: pencilAnim 6s linear infinite;
+          }
+        }
+      }
+    }
+  }
+
+  .active-item{
+    a{
+      color:$green-dark !important;
+    }
+  }
+
+  @keyframes pencilAnim {
+    0% {
+      right: -0.5rem;
+    }
+    50% {
+      right: 1.5rem;
+    }
+    100% {
+      right: -0.5rem;
+    }
+  }
+
+  //    hamburberg button
+
+  .mobile-nav-btn {
+    position: absolute;
+    display: block;
+    left: 0;
+    transform: translateX(-100%);
+    padding-right: 1rem;
+    padding-top: 1rem;
+    transition: display 0.3s linear;
+
+    @include laptopMedia {
+      display: none;
+    }
+  }
+
+  .mobile-nav-close-btn {
+    display: block;
+    position: absolute;
+    left: 0;
+    transform: translateX(-100%);
+    padding-top: 1rem;
+    padding-right: 1rem;
+    transition: display 0.3s linear;
+
+    @include laptopMedia {
+      display: none;
+    }
+  }
+}
+
+.activeElement {
+  display: none !important;
+}
+
+// Header logic from here
+
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  height: 80vh;
+  width: 100%;
+  background-image: url("/portfolio/media/portfolio-cover1.jpg");
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.486);
+  }
+  @include tabletMedia {
+    background-position: 50% 25%;
+  }
+}
+
+.mb-logo {
+  position: fixed;
+  left: 0.5rem;
+  z-index: 10;
+  svg {
+    width: 3rem;
+    height: 3rem;
+  }
+  @include laptopMedia {
+    display: none;
+  }
+}
+
+.show {
+  visibility: visible;
+  opacity: 1;
+  transform: rotateY(0deg) !important;
+  perspective: none !important;
+
+  &:hover {
+    transform: none !important;
+    perspective: none !important;
+  }
+}
+
+footer {
+  position: relative;
+  width: 100%;
+  height: auto;
+  margin-top: -10px;
+  z-index: 2;
+  background-color: black;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .footer-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding-top: 2rem;
+
+    .social-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      padding-bottom: 0.5rem;
+
+      .social-logo {
+        position: relative;
+        .fab {
+          color: $gray-light;
+          font-size: 1.5rem;
+          cursor: pointer;
+          &:hover {
+            color: white;
+          }
+        }
+      }
+    }
+
+    .profile-section {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      grid-gap: 0.5rem;
+      padding-bottom: 0.5rem;
+
+      h3 {
+        font-size: 1rem;
+        font-weight: 500;
+        color: $gray-light;
+        letter-spacing: 0.2px;
+        line-height: 1.5rem;
+      }
+      p {
+        font-size: 0.7rem;
+        font-weight: 400;
+        color: $gray-light;
+        letter-spacing: 0.2px;
+        line-height: 1.1rem;
+      }
+      img {
+        width: 50px;
+        height: 50px;
+      }
+    }
+
+    .copyright {
+      position: relative;
+      padding-bottom: 1rem;
+
+      p {
+        font-size: 0.7rem;
+        line-height: 1.1rem;
+        letter-spacing: 0.2px;
+        color: gray;
+        padding-bottom: 0.3rem;
+        .fas {
+          color: purple;
+        }
+        a {
+          color: $gray-light;
+        }
+      }
+    }
+  }
+}
+
+//comman code upto above
+
+.portfolio-header-container {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  
+    .portfolio-title {
+      font-size: 1.8rem;
+      color: white;
+      line-height: 2.4rem;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      text-align: center;
+      padding-bottom: 0.5rem;
+    }
+  
+    .portfolio-hr {
+      border: 1px solid $green-light;
+      width: 4rem;
+    }
+  
+    .portfolio-subtitle {
+      text-align: center;
+      font-size: 0.9rem;
+      line-height: 1.4rem;
+      letter-spacing: 0.2px;
+      color: white;
+      padding: 1rem;
+    }
+  
+    .portfolio-header-btn {
+      color: $dark-black;
+      font-weight: 400;
+      background-image: linear-gradient(45deg, $green-light 0%, #434343 74%);
+      padding: 0.6rem 1.2rem;
+      border-radius: 25px;
+      font-size: 1.2rem;
+      font-weight: 500;
+      letter-spacing: 0.1px;
+      transition: all 0.25s linear;
+  
+      &:hover {
+        color: $green-light;
+        background-color: #000000;
+        background-image: linear-gradient(45deg, #000000 0%, #434343 74%);
+      }
+    }
+  }
+  
+.aboutme{
+   position: relative;
+   width:100%;
+   height:aut0;
+   background: linear-gradient(114deg, rgba(231,229,229,1) 0%, rgba(186,210,226,1) 44%, rgba(255,255,255,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#e7e5e5",endColorstr="#ffffff",GradientType=1);
+}
+
+.aboutme-container{
+    display: flex;
+    flex-direction: column;
+    width:90%;
+    margin:auto;
+    padding-top: 2rem;
+
+    @include laptopMedia{
+      width:80%;
+      padding-top: 3rem;
+    }
+    
+
+    h4{
+      font-size: 1rem;
+      line-height: 1.6rem;
+      letter-spacing: 0.2px;
+      color:$dark-black;
+      font-weight: 600;
+      padding-bottom: 1rem;
+
+      @include laptopMedia{
+        text-align: center;
+
+      }
+      
+      .hey-word{
+        font-size: 1.2rem;
+        color: black;
+        font-weight: 800;
+      }
+    }
+}
+
+.aboutme-inside{
+  width:100%;
+  display: flex;
+  flex-direction: column;
+
+  @include laptopMedia{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    
+  }
+
+  .text-section{
+    position: relative;
+
+    @include laptopMedia{
+      display:flex;
+      flex-direction: column;
+      gap: 1rem;
+      width:100%;
+      height:100%;
+      padding-right: 5rem;
+    }
+
+    .text-top{
+        font-size: 0.8rem;
+        line-height: 1.3rem;
+        letter-spacing: 0.2px;
+        font-weight: 300;
+        color:$dark-black;
+        padding-bottom: 0.5rem;
+    }
+    .text-bottom{
+      font-size: 0.8rem;
+      line-height: 1.3rem;
+      letter-spacing: 0.2px;
+      font-weight: 300;
+      color:$dark-black;
+      padding-bottom: 0.5rem;
+
+      .zigmee{
+        font-weight: 800;
+      }
+    }
+
+    .text-final{
+      font-size: 0.8rem;
+      line-height: 1.3rem;
+      letter-spacing: 0.2px;
+      font-weight: 600;
+      color:$dark-black;
+      padding-bottom: 0.5rem;
+    }
+  }
+
+  .image-section{
+    width: 100%;
+    height: auto;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    @include laptopMedia{
+      float: right;
+      width: 50%;
+      height:20%;
+      img{
+        width:100%;
+        height: 10%;
+      }
+    }
+
+    img{
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+
+
+.img-gallery{
+  position:relative;
+  width:100%;
+  height:auto;
+  background-color: $dark-black;
+
+  h1{
+    position: relative;
+        font-size: 1.4rem;
+        letter-spacing: 0.2px;
+        line-height: 1.9rem;
+        color: $gray-light;
+        font-weight: 700;
+        padding-bottom: 1rem;
+        text-align: center;
+        padding-top: 2rem;
+  }
+  .img-gallery-container{
+    width:90%;
+    margin: auto auto;
+    padding-top: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-gap:30px;
+
+    .image{
+      object-fit: cover;
+    }
+
+    img{
+      width: 100%;
+      height: 250px;
+      cursor: pointer;
+      transition: 0.5s;
+      &:hover{
+        transform: scale(0.8) rotate(-15deg);
+        border-radius: 20px;
+        box-shadow: 0 32px 75px rgba(255, 255, 255, 0.486);
+      }
+    }
+  }
+
+}
+
+.img-gallery-container-extended{
+  position: relative;
+   .view-more-container{
+     position:relative;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+
+     h5{
+       color:#fafafa;
+       padding: 2rem 1.5rem;
+       font-size: 0.8rem;
+      cursor: pointer;
+      display: block;
+       &:hover{
+         color:$green-dark;
+       }
+     }
+   }
+}
+
+.img-gallery-container2{
+  width:90%;
+  margin: auto auto;
+  padding-top: 2rem;
+  display: none;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-gap:30px;
+  .image{
+    object-fit: cover;
+  }
+
+  img{
+    width: 100%;
+    height: 250px;
+    cursor: pointer;
+    transition: 0.5s;
+    transition:all 0.2s ease-in-out;
+
+    &:hover{
+      transform: scale(0.8) rotate(-15deg);
+      border-radius: 20px;
+      box-shadow: 0 32px 75px rgba(255, 255, 255, 0.486);
+    }
+  }
+}
+
+.full-img{
+  width: 100%;
+  height: 100vh;
+  background: #000000bc;
+  position: fixed;
+  left: 0;
+  top:0;
+  display:flex;
+  align-items: center;
+  justify-content: center; 
+  z-index: 5;
+  visibility: hidden;
+}
+  .zoom-close-btn{
+    position: absolute;
+    visibility: hidden;
+    right: 2rem;
+    top: 2rem;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color:white;
+    cursor: pointer;
+  }
+
+
+.full-img img{
+  
+  height:90%;
+  max-width:90%;
+}
+.show-element{
+  visibility:visible !important;
+  
+}
+
+.display-block{
+  display: grid!important;
+}
+
+.display-none{
+  display:none !important;
+}
+
+
+// hire me logic from here 
+.hire-me{
+   
+  position: relative;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+
+  @include tabletMedia{
+    display:grid;
+    grid-template-columns: 50% 50%;
+  }
+  .hire-me-container{
+    position:relative;
+    width: 90%;
+    margin: 2rem auto;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+
+    h2{
+      font-size: 1.4rem;
+      line-height: 1.9rem;
+      letter-spacing: 0.3px;
+      color: $dark-black;
+      font-weight: 600;
+      padding-bottom: 1rem;
+    }
+   .hire-me-tagline{
+     font-size: 0.8rem;
+     line-height: 1.3rem;
+     color: $dark-black;
+     font-weight: 500;
+     padding-bottom: 0.5rem;
+     text-align: center;
+   }
+   .hire-me-para{
+     font-size: 0.8rem;
+     line-height: 1.3rem;
+     color: $dark-black;
+     font-weight: 400;
+     padding-bottom: 0.5rem;
+     text-align: center;
+  }
+  .hire-me-button{
+     background-color:$green-dark;
+     padding:0.6rem 0.7rem;
+     font-size: 0.9rem;
+     font-weight: 500;
+     border-radius: 20px;
+     margin-top: 0.5rem;
+     color:black;
+     transition:a11 0.25s ease-in-out;
+     &:hover{
+       background-color: $green-light;
+     }
+  }
+}
+.hire-me-img{
+  display: none;
+  @include tabletMedia{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img{
+      height: 100%;
+      width: 100%;
+    }
+  }
+}
+}
+
+.gif-anim{
+  display: none;
+  @include tabletMedia{
+  position: absolute;
+  display:block;
+  width:7%;
+  top: 10px;
+  left:20px;
+  }
+  
+}
